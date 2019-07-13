@@ -90,6 +90,7 @@ Program.prototype.alias = function (input) {
   if (this.lastMethodsCalled.includes('command')) {
     for (key in this.allCommands[index]) {
       this.allCommands[index][key].alias = input;
+      //this.allCommands[index][key].alias.push(input);
     }
   }
 
@@ -113,7 +114,7 @@ Program.prototype.parse = function (argv) {
 
   for (let i = 0; i < this.allCommands.length; i++) {
     for (key in this.allCommands[i]) {
-      if (command === key || command === this.allCommands[i][key].alias) {
+      if (command === key || this.allCommands[i][key].alias === command) {
         return this.allCommands[i][key].action(...argv.slice(3));
       }
     }
