@@ -75,4 +75,12 @@ const deleteInfo = (app) => {
   return;
 }
 
-module.exports = { addPassword, getPassword, changePassword, deleteInfo };
+const listApps = () => {
+  let data = JSON.parse(fs.readFileSync(dataFile, 'utf8'));
+
+  for(key in data) {
+    console.log(key);
+  }
+}
+
+module.exports = { addPassword, getPassword, changePassword, deleteInfo, listApps };
