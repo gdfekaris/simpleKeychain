@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-let dataFile = path.join(__dirname, 'data.json');
+let dataFile = path.join(__dirname, 'data.txt');
 
 if (!fs.existsSync(dataFile)) {
   let starterObj = {}
@@ -83,4 +83,10 @@ const listApps = () => {
   }
 }
 
-module.exports = { addPassword, getPassword, changePassword, deleteInfo, listApps };
+module.exports = {
+  addPassword,
+  getPassword,
+  changePassword,
+  deleteInfo,
+  listApps
+};
