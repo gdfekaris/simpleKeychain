@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
 
 let dataFile = path.join(__dirname, 'data.txt');
 
@@ -11,11 +12,14 @@ if (!fs.existsSync(dataFile)) {
   });
 }
 
-const addPassword = (app, username, email, password) => {
+const addPassword = (app, email, password) => {
+  try { JSON.parse(fs.readFileSync(dataFile, 'utf8')) }
+  catch (err) { return console.log('you must decrypt your password file first.') }
+
   let rawData = fs.readFileSync(dataFile, 'utf8');
   let parsedData = JSON.parse(rawData);
 
-  parsedData[app] = { username, email, password }
+  parsedData[app] = { email, password }
 
   fs.writeFile(dataFile, JSON.stringify(parsedData), function () {
     console.log('Password added');
@@ -26,6 +30,9 @@ const addPassword = (app, username, email, password) => {
 }
 
 const getPassword = (app) => {
+  try { JSON.parse(fs.readFileSync(dataFile, 'utf8')) }
+  catch (err) { return console.log('you must decrypt your password file first.') }
+
   let data = JSON.parse(fs.readFileSync(dataFile, 'utf8'));
 
   for (key in data) {
@@ -39,6 +46,9 @@ const getPassword = (app) => {
 }
 
 const changePassword = (app, newPassword, newUsername, newEmail) => {
+  try { JSON.parse(fs.readFileSync(dataFile, 'utf8')) }
+  catch (err) { return console.log('you must decrypt your password file first.') }
+
   let data = JSON.parse(fs.readFileSync(dataFile, 'utf8'));
 
   if (newPassword === null) { return; }
@@ -59,6 +69,9 @@ const changePassword = (app, newPassword, newUsername, newEmail) => {
 }
 
 const deleteInfo = (app) => {
+  try { JSON.parse(fs.readFileSync(dataFile, 'utf8')) }
+  catch (err) { return console.log('you must decrypt your password file first.') }
+
   let data = JSON.parse(fs.readFileSync(dataFile, 'utf8'));
 
   for (key in data) {
@@ -76,11 +89,50 @@ const deleteInfo = (app) => {
 }
 
 const listApps = () => {
-  let data = JSON.parse(fs.readFileSync(dataFile, 'utf8'));
+  try { JSON.parse(fs.readFileSync(dataFile, 'utf8')) }
+  catch (err) { return console.log('you must decrypt your password file first.') }
 
-  for(key in data) {
-    console.log(key);
-  }
+  let data = JSON.parse(fs.readFileSync(dataFile, 'utf8'));
+  let arr = []
+
+  for (key in data) { arr.push(key) }
+
+  arr.sort().forEach((key) => console.log(key));
+}
+
+const encrypt = (password) => {
+  let data = fs.readFileSync(dataFile, 'utf8');
+
+  const initVect = crypto.randomBytes(8).toString('hex');
+
+  const key = crypto.createHash('sha256').update(password).digest();
+
+  const cipher = crypto.createCipheriv('aes256', key, initVect);
+  let cipherText = cipher.update(data, 'utf8', 'hex');
+  cipherText += cipher.final('hex');
+
+  let encryptedFile = initVect + cipherText;
+
+  fs.writeFile(dataFile, encryptedFile, () => console.log(`Password file has been encrypted.`))
+
+}
+
+const decrypt = (password) => {
+
+  let data = fs.readFileSync(dataFile, 'utf8');
+
+  const key = crypto.createHash('sha256').update(password).digest();
+
+  const initVect = data.slice(0, 16);
+
+  let encryptedData = data.slice(16, data.length);
+
+  const decipher = crypto.createDecipheriv('aes256', key, initVect);
+  let decrypted = decipher.update(encryptedData, 'hex', 'utf8');
+  decrypted += decipher.final('utf8');
+
+  fs.writeFile(dataFile, decrypted, () => console.log(`Password file has been decrypted.`))
+
 }
 
 module.exports = {
@@ -88,5 +140,7 @@ module.exports = {
   getPassword,
   changePassword,
   deleteInfo,
-  listApps
+  listApps,
+  encrypt,
+  decrypt
 };
