@@ -28,10 +28,10 @@ program
   .action((appname, email, password) => addPassword(appname, email, password));
 
 program
-  .command('change <appname> <newpassword> <newusername (optional)> <newemail (optional)>')
+  .command('change <appname> <newpassword> <newemail (optional)>')
   .description('updates password and account info for given app')
   .alias('ch')
-  .action((appname, newpassword, newusername, newemail) => changePassword(appname, newpassword, newusername, newemail));
+  .action((appname, newpassword, newemail) => changePassword(appname, newpassword, newemail));
 
 program
   .command('encrypt <key>')

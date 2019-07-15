@@ -45,7 +45,7 @@ const getPassword = (app) => {
   return console.log('No info saved for that app.');
 }
 
-const changePassword = (app, newPassword, newUsername, newEmail) => {
+const changePassword = (app, newPassword, newEmail) => {
   try { JSON.parse(fs.readFileSync(dataFile, 'utf8')) }
   catch (err) { return console.log('you must decrypt your password file first.') }
 
@@ -56,7 +56,6 @@ const changePassword = (app, newPassword, newUsername, newEmail) => {
   for (key in data) {
     if (key === app) {
       data[key].password = newPassword;
-      data[key].username = newUsername || data[key].username;
       data[key].email = newEmail || data[key].email;
 
       fs.writeFile(dataFile, JSON.stringify(data), () => {
