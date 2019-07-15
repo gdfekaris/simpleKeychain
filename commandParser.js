@@ -1,28 +1,11 @@
+const { logo, showManual } = require('./sKManual');
+
 var Program = function () {
   this.programName = 'simplekeychain'
   this.programVersion = null;
   this.programDescription = null;
 
   this.lastMethodsCalled = [];
-
-  this.mapCommands = function () {
-    let output = ``;
-    for (let i = 0; i < this.allCommands.length; i++) {
-      for (key in this.allCommands[i]) {
-        let alias = this.allCommands[i][key].alias || null;
-        let stringArray = this.allCommands[i][key].command.split(' ');
-
-        if (alias) {
-          alias = '|' + alias
-          stringArray[0] = stringArray[0] + alias;
-        }
-
-        output = output + `   ${stringArray.join(' ')}\n   (${this.allCommands[i][key].description})\n\n`
-      }
-    }
-
-    return output;
-  }
 
   this.allCommands = [
     {
@@ -39,8 +22,7 @@ var Program = function () {
         alias: 'h',
         description: 'displays this manual',
         action: () => {
-          const boilerPlate = `Usage: ${this.programName} [command]\n\nDescription: ${this.programDescription}\n\nCommands:\n${this.mapCommands()}`;
-          return console.log(boilerPlate);
+          return console.log(showManual(this.allCommands, this.programName, this.programDescription, logo));
         }
       }
     }
@@ -133,7 +115,7 @@ module.exports = new Program();
 /* EXAMPLE USAGE:
 
 const program = require('./commandParser');
-const { addpassword, getPassword } = require('./logic.js');
+const { addpassword, getPassword } = require('./logic.js'); //import the functions to be used
 
 program
   .version('0.0.1')

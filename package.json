@@ -6,7 +6,7 @@
   "preferGlobal": true,
   "bin": "./simpleKeychain.js",
   "scripts": {
-    "build": "node index.js"
+    "build": "node simpleKeychain.js"
   },
   "keywords": [
     "password",
@@ -14,9 +14,5 @@
   ],
   "author": "gdfekaris",
   "license": "ISC",
-  "dependencies": {
-    "commander": "^2.20.0",
-    "inquirer": "^6.4.1",
-    "mongoose": "^5.6.4"
-  }
+  "dependencies": {}
 }
