@@ -102,10 +102,8 @@ Program.prototype.parse = function (argv) {
     }
   }
 
-  const badCommandOutput = `\nThat's not a command. Check out the help menu here:\n`;
-  console.log(badCommandOutput);
-
-  return this.allCommands[1].help.action();
+  const badCommandOutput = `\nThat's not a command.\nTo see the help menu, run this: simplekeychain help`;
+  return console.log(badCommandOutput);
 }
 
 
