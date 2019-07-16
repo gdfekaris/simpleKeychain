@@ -12,7 +12,7 @@ var Program = function () {
       version: {
         command: 'version',
         alias: 'v',
-        description: 'shows version number',
+        description: 'Shows version number.',
         action: () => console.log(`v${this.programVersion}`)
       }
     },
@@ -20,7 +20,7 @@ var Program = function () {
       help: {
         command: 'help',
         alias: 'h',
-        description: 'displays this manual',
+        description: 'Displays this manual.',
         action: () => {
           return console.log(showManual(this.allCommands, this.programName, this.programDescription, logo));
         }

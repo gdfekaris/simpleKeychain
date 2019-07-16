@@ -21,7 +21,7 @@ const showManual = (commandList, programName, programDescription, logo) => {
         stringArray[0] = stringArray[0] + alias;
       }
 
-      output = output + `   ${stringArray.join(' ')}\n   (${commandList[i][key].description})\n\n`
+      output = output + `   ${stringArray.join(' ')}\n   ${commandList[i][key].description}\n\n`
     }
   }
 

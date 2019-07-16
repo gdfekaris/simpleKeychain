@@ -17,43 +17,43 @@ program
 
 program
   .command('get <appname>')
-  .description('gets password for given app')
+  .description('Gets password for given app.')
   .alias('g')
   .action((appName) => getPassword(appName));
 
 program
   .command(`add <appname> <email> <'password' (must be wrapped in single quotes)>`)
-  .description('adds password to keychain')
+  .description('Adds password to keychain.')
   .alias('a')
   .action((appname, email, password) => addPassword(appname, email, password));
 
 program
   .command('change <appname> <newpassword> <newemail (optional)>')
-  .description('updates password and account info for given app')
+  .description('Updates password and account info for given app.')
   .alias('ch')
   .action((appname, newpassword, newemail) => changePassword(appname, newpassword, newemail));
 
 program
   .command('encrypt <key>')
-  .description('encrypts password file')
+  .description('Encrypts password file. If key uses special characters, wrap it in single quotes.')
   .alias('en')
   .action((key) => encrypt(key));
 
 program
   .command('decrypt <key>')
-  .description('decrypts password file')
+  .description('Decrypts password file. If key uses special characters, wrap it in single quotes.')
   .alias('d')
   .action((key) => decrypt(key));
 
 program
   .command('list')
-  .description('lists all apps with stored passwords')
+  .description('Lists all apps with stored passwords.')
   .alias('l')
   .action(() => listApps());
 
 program
   .command('deleteInfo <appname>')
-  .description('deletes all account info for given app')
+  .description('Deletes all account info for given app.')
   .action((appname) => deleteInfo(appname));
 
 program.parse(process.argv);
