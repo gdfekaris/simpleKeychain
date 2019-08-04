@@ -135,7 +135,6 @@ const decrypt = (password) => {
   try { decrypted += decipher.final('utf8'); }
   catch (err) { return console.log('you may have entered the wrong password.') }
 
-
   fs.writeFile(dataFile, decrypted, () => console.log(`Password file has been decrypted.`))
 }
 
