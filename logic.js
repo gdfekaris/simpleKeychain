@@ -100,6 +100,9 @@ const listApps = () => {
 }
 
 const encrypt = (password) => {
+  try { JSON.parse(fs.readFileSync(dataFile, 'utf8')) }
+  catch (err) { return console.log('your file is already encrypted. you cannot encrypt doubly.') }
+
   let data = fs.readFileSync(dataFile, 'utf8');
 
   const initVect = crypto.randomBytes(8).toString('hex');
