@@ -5,11 +5,9 @@ A small password storage app with a cli. Performs CRUD operations (plus encrypti
 ---
 **Installation**
 - Clone this repo.
-- Run `npm link` from the root folder.
-- Next run `npm link simplekeychain`.
-  (For reference, here is the [npm link](https://docs.npmjs.com/cli/link) documentation.)
+- Create an alias in your shell
+  (it will look something like this: alias simplekeychain="node [full path]/simpleKeychain/simpleKeychain.js")
 - Now run `simplekeycahin help`. This will initialize a `data.txt` file in the root folder, and thereon display the app's commands.
-- Simple Keycahin is ready to use. To save some keystrokes, don't forget to create your own alias for the app.
 
 **Usage**
 
