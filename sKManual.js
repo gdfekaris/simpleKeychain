@@ -25,7 +25,7 @@ const showManual = (commandList, programName, programDescription, logo) => {
     }
   }
 
-  return `${logo}\nUsage: ${programName} [command]\n\nDescription: ${programDescription}\n\nCommands:\n${output}__________________________________________`;
+  return `${logo}\nUsage: ${programName} [option] <parameter>\n\nDescription: ${programDescription}\n\nOptions:\n${output}__________________________________________`;
 }
 
 module.exports = { logo, showManual };

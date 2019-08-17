@@ -22,7 +22,7 @@ program
   .action((appName) => getPassword(appName));
 
 program
-  .command(`add <appname> <email> <'password' (must be wrapped in single quotes)>`)
+  .command(`add <appname> <email> <'password' (must be wrapped in quotes)>`)
   .description('Adds password to keychain.')
   .alias('a')
   .action((appname, email, password) => addPassword(appname, email, password));
@@ -35,13 +35,13 @@ program
 
 program
   .command('encrypt <key>')
-  .description('Encrypts password file. If key uses special characters, wrap it in single quotes.')
+  .description('Encrypts password file. If key uses special characters, wrap it in quotes.')
   .alias('en')
   .action((key) => encrypt(key));
 
 program
   .command('decrypt <key>')
-  .description('Decrypts password file. If key uses special characters, wrap it in single quotes.')
+  .description('Decrypts password file. If key uses special characters, wrap it in quotes.')
   .alias('d')
   .action((key) => decrypt(key));
 
