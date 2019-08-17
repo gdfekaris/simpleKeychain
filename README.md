@@ -4,9 +4,9 @@ A small password storage app with a cli. Performs CRUD operations (plus encrypti
 
 ---
 **Installation**
-- Clone this repo.
-- Create a memorable alias for the Simple Keychain app in your `.bash_profile`. The app's entry point is `simpleKeychain.js`. Your alias will look something like this: `alias simplekeychain="node [full path]/simpleKeychain/simpleKeychain.js"`. For more information on editing and/or creating a `.bash_profile`, here is a [quick step-by-step tutorial](https://coolestguidesontheplanet.com/make-an-alias-in-bash-shell-in-os-x-terminal/).
-- Now run your alias command with the `help` option. In this example, our alias is `simpleKeychain`, so we'll run `simplekeycahin help`. This will create a `data.txt` file in the root folder, and then display instructions for the app's usage. Once the data file is created, it will not be created again, and the `help` option will only display the app's instructions.
+1. Clone this repo.
+2. Create a memorable alias for the Simple Keychain app in your `.bash_profile`. The app's entry point is `simpleKeychain.js`. Your alias will look something like this: `alias simplekeychain="node [full path]/simpleKeychain/simpleKeychain.js"`. For more information on editing and/or creating a `.bash_profile`, here is a [quick step-by-step tutorial](https://coolestguidesontheplanet.com/make-an-alias-in-bash-shell-in-os-x-terminal/).
+3. Now run your alias command with the `help` option. In this example, our alias is `simpleKeychain`, so we'll run `simplekeycahin help`. This will create a `data.txt` file in the root folder, and then display instructions for the app's usage. Once the data file is created, it will not be created again, and the `help` option will only display the app's instructions.
 
 **Note**
 
