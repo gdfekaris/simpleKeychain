@@ -10,7 +10,7 @@ A small password storage app with a cli. Performs CRUD operations (plus encrypti
 
 **Note**
 
-Your passwords will be stored in the `data.txt` file. They will be secure after the Simple Keychain encryption operation is performed, and they will be exposed after the decryption operation is performed. For added security, you may rename or move the data file. If you do so, you must change the file name and/or path in Simple Keychain's `logic.js` file, on line 5. Renaming your data file requires you to replace `'data.txt'` (on line 5) with somthing like this `'yourNewFileName.txt'`. Moving your data file requires you to replace the code located to the right of the `=` operator (on line 5) with a string that contains the full path to your data file. It will look somthing like this: `let dataFile = '[full path]/data.txt';`. The app will work as intended after that.
+Your passwords will be stored in the `data.txt` file. They will be secure after the Simple Keychain encryption operation is performed, and they will be exposed after the decryption operation is performed. For added security, you may rename or move the data file. If you do so, you must change the file name and/or path on line 5 in Simple Keychain's `logic.js` file. Renaming your data file requires you to replace the string `'data.txt'` (on line 5) with somthing like this `'newFileName.txt'`. Moving your data file requires you to replace the code located to the right of the `=` operator (on line 5) with a string that contains the new path. The line will then look somthing like this: `let dataFile = '[full path]/data.txt';`. The app will work as intended after that.
 
 **Usage**
 
