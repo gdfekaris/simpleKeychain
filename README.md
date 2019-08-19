@@ -4,10 +4,10 @@ A small password storage app with a cli. Performs CRUD operations (plus encrypti
 
 ---
 **Installation**
-1. You must have Node.js installed on your Mac. If you don't have it, then I suggest following the linked instructions to install [Homebrew](http://osxdaily.com/2018/03/07/how-install-homebrew-mac-os/) first, and then [Node.js](http://osxdaily.com/2018/06/29/how-install-nodejs-npm-mac/).
+1. If you don't have Node.js installed on your Mac, then you must install it. I suggest following the linked instructions to install [Homebrew](http://osxdaily.com/2018/03/07/how-install-homebrew-mac-os/) first, and then [Node.js](http://osxdaily.com/2018/06/29/how-install-nodejs-npm-mac/).
 2. Clone or download this repo.
 3. In your `.bash_profile`, create a memorable alias to use as as a command for the Simple Keychain app. The app's entry point is `simpleKeychain.js`. Your alias will look something like this: `alias simplekeychain="node [full path]/simpleKeychain/simpleKeychain.js"`. For more information on editing and/or creating a `.bash_profile`, here is a [quick step-by-step tutorial](https://coolestguidesontheplanet.com/make-an-alias-in-bash-shell-in-os-x-terminal/).
-4. Now run your command with the `help` option. In this example, our alias is `simpleKeychain`, so we'll run `simplekeycahin help`. This will create a `data.txt` file in the root folder, and then display instructions for the app's usage. Once the data file is created, it will not be created again, and the `help` option will only display the app's instructions.
+4. Now run your command with the `help` option. In this example, our alias is `simplekeychain`, so we'll run `simplekeycahin help`. This will create a `data.txt` file in the root folder, and then display instructions for the app's usage. Once the data file is created, it will not be created again, and the `help` option will only display the app's instructions.
 
 **Note**
 
