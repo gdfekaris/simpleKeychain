@@ -4,6 +4,7 @@ const program = require('./commandParser');
 const {
   addPassword,
   getPassword,
+  getUsername,
   changePassword,
   deleteInfo,
   listApps,
@@ -20,6 +21,12 @@ program
   .description('Gets password for given app.')
   .alias('g')
   .action((appName) => getPassword(appName));
+
+program
+  .command('getUsername <appname>')
+  .description('Gets username for given app.')
+  .alias('gu')
+  .action((appname) => getUsername(appname));
 
 program
   .command(`add <appname> <email> <'password' (must be wrapped in quotes)>`)

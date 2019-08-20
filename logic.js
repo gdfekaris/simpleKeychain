@@ -45,6 +45,23 @@ const getPassword = (app) => {
   return console.log('No info saved for that app.');
 }
 
+const getUsername = (app) => {
+  try { JSON.parse(fs.readFileSync(dataFile, 'utf8')) }
+  catch (err) { return console.log('you must decrypt your password file first.') }
+
+  let data = JSON.parse(fs.readFileSync(dataFile, 'utf8'));
+
+  for (key in data) {
+    if (key === app) {
+      console.log(`>\n${data[key].email}`);
+      return;
+    }
+  }
+
+  return console.log('No info saved for that app.');
+
+}
+
 const changePassword = (app, newPassword, newEmail) => {
   try { JSON.parse(fs.readFileSync(dataFile, 'utf8')) }
   catch (err) { return console.log('you must decrypt your password file first.') }
@@ -141,6 +158,7 @@ const decrypt = (password) => {
 module.exports = {
   addPassword,
   getPassword,
+  getUsername,
   changePassword,
   deleteInfo,
   listApps,
