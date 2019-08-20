@@ -29,13 +29,13 @@ program
   .action((appname) => getUsername(appname));
 
 program
-  .command(`add <appname> <email> <'password' (must be wrapped in quotes)>`)
+  .command(`add <appname> <email/username> <'password' (must be wrapped in quotes)>`)
   .description('Adds password to keychain.')
   .alias('a')
   .action((appname, email, password) => addPassword(appname, email, password));
 
 program
-  .command('change <appname> <newpassword> <newemail (optional)>')
+  .command('change <appname> <newpassword> <newemail/username (optional)>')
   .description('Updates password and account info for given app.')
   .alias('ch')
   .action((appname, newpassword, newemail) => changePassword(appname, newpassword, newemail));
