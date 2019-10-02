@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
+//const readline = require('readline');
 
 let dataFile = path.join(__dirname, 'data.txt');
 
@@ -80,6 +81,14 @@ const showPassword = (app) => {
   }
 
   return console.log('No info saved for that app.');
+}
+
+const clearClipboard = () => {
+  const pbcopy = require('child_process').spawn('pbcopy');
+  pbcopy.stdin.write('');
+  pbcopy.stdin.end();
+  console.log('Clipboard cleared')
+  return;
 }
 
 const getUsername = (app) => {
@@ -225,6 +234,7 @@ module.exports = {
   getPassword,
   getUsername,
   showPassword,
+  clearClipboard,
   changePassword,
   deleteInfo,
   listApps,

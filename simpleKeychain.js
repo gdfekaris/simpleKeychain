@@ -4,6 +4,7 @@ const program = require('./commandParser');
 const {
   addPassword,
   getPassword,
+  clearClipboard,
   getUsername,
   showPassword,
   changePassword,
@@ -22,6 +23,12 @@ program
   .description('Gets password for given app.')
   .alias('g')
   .action((appName) => getPassword(appName));
+
+program
+  .command(`clear`)
+  .description('Clears clipboard')
+  .alias('cc')
+  .action(() => clearClipboard());
 
 program
   .command('getUsername <appname>')
