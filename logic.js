@@ -16,8 +16,7 @@ const addPassword = (app, email, password) => {
   try { JSON.parse(fs.readFileSync(dataFile, 'utf8')) }
   catch (err) { return console.log('you must decrypt your password file first.') }
 
-  if (app || email || password === undefined) {
-    let helpCommand = 'simplekeychain h'.bold();
+  if (app === undefined || email === undefined || password === undefined) {
     console.log(`Missing argument. Use \x1b[1msimplekeychain h\x1b[0m for help.`)
     //console.log('\x1b[1m', 'simplekeychain h');
     return;
