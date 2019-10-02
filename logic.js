@@ -39,6 +39,11 @@ const getPassword = (app) => {
   try { JSON.parse(fs.readFileSync(dataFile, 'utf8')) }
   catch (err) { return console.log('you must decrypt your password file first.') }
 
+  if (app === undefined) {
+    console.log(`Missing argument. Use \x1b[1msimplekeychain h\x1b[0m for help.`);
+    return;
+  }
+
   let data = JSON.parse(fs.readFileSync(dataFile, 'utf8'));
 
   for (key in data) {
@@ -60,6 +65,11 @@ const showPassword = (app) => {
   try { JSON.parse(fs.readFileSync(dataFile, 'utf8')) }
   catch (err) { return console.log('you must decrypt your password file first.') }
 
+  if (app === undefined) {
+    console.log(`Missing argument. Use \x1b[1msimplekeychain h\x1b[0m for help.`);
+    return;
+  }
+
   let data = JSON.parse(fs.readFileSync(dataFile, 'utf8'));
 
   for (key in data) {
@@ -75,6 +85,11 @@ const showPassword = (app) => {
 const getUsername = (app) => {
   try { JSON.parse(fs.readFileSync(dataFile, 'utf8')) }
   catch (err) { return console.log('you must decrypt your password file first.') }
+
+  if (app === undefined) {
+    console.log(`Missing argument. Use \x1b[1msimplekeychain h\x1b[0m for help.`);
+    return;
+  }
 
   let data = JSON.parse(fs.readFileSync(dataFile, 'utf8'));
 
@@ -92,9 +107,14 @@ const changePassword = (app, newPassword, newEmail) => {
   try { JSON.parse(fs.readFileSync(dataFile, 'utf8')) }
   catch (err) { return console.log('you must decrypt your password file first.') }
 
+  if (app === undefined || password === undefined) {
+    console.log(`Missing argument. Use \x1b[1msimplekeychain h\x1b[0m for help.`)
+    return;
+  }
+
   let data = JSON.parse(fs.readFileSync(dataFile, 'utf8'));
 
-  if (newPassword === null) { return; }
+  //if (newPassword === null) { return; }
 
   for (key in data) {
     if (key === app) {
@@ -113,6 +133,11 @@ const changePassword = (app, newPassword, newEmail) => {
 const deleteInfo = (app) => {
   try { JSON.parse(fs.readFileSync(dataFile, 'utf8')) }
   catch (err) { return console.log('you must decrypt your password file first.') }
+
+  if (app === undefined) {
+    console.log(`Missing argument. Use \x1b[1msimplekeychain h\x1b[0m for help.`);
+    return;
+  }
 
   let data = JSON.parse(fs.readFileSync(dataFile, 'utf8'));
 
@@ -148,6 +173,11 @@ const encrypt = (password) => {
   try { JSON.parse(fs.readFileSync(dataFile, 'utf8')) }
   catch (err) { return console.log('your file is already encrypted. you cannot encrypt doubly.') }
 
+  if (password === undefined) {
+    console.log(`Missing argument. Use \x1b[1msimplekeychain h\x1b[0m for help.`);
+    return;
+  }
+
   let data = fs.readFileSync(dataFile, 'utf8');
 
   const initVect = crypto.randomBytes(8).toString('hex');
@@ -166,6 +196,10 @@ const encrypt = (password) => {
 }
 
 const decrypt = (password) => {
+  if (password === undefined) {
+    console.log(`Missing argument. Use \x1b[1msimplekeychain h\x1b[0m for help.`);
+    return;
+  }
 
   let data = fs.readFileSync(dataFile, 'utf8');
 
