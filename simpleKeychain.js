@@ -5,6 +5,7 @@ const {
   addPassword,
   getPassword,
   getUsername,
+  showPassword,
   changePassword,
   deleteInfo,
   listApps,
@@ -29,10 +30,16 @@ program
   .action((appname) => getUsername(appname));
 
 program
-  .command(`add <appname> <email/username> <'password' (must be wrapped in quotes)>`)
+  .command(`add <appname> <email/username> <'password' (must be wrapped in single quotes)>`)
   .description('Adds password to keychain.')
   .alias('a')
   .action((appname, email, password) => addPassword(appname, email, password));
+
+program
+  .command(`show <appname>`)
+  .description('Shows password. Be careful.')
+  .alias('sh')
+  .action((appname) => showPassword(appname));
 
 program
   .command('change <appname> <newpassword> <newemail/username (optional)>')

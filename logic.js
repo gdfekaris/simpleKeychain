@@ -16,6 +16,13 @@ const addPassword = (app, email, password) => {
   try { JSON.parse(fs.readFileSync(dataFile, 'utf8')) }
   catch (err) { return console.log('you must decrypt your password file first.') }
 
+  if (app || email || password === undefined) {
+    let helpCommand = 'simplekeychain h'.bold();
+    console.log(`Missing argument. Use \x1b[1msimplekeychain h\x1b[0m for help.`)
+    //console.log('\x1b[1m', 'simplekeychain h');
+    return;
+  }
+
   let rawData = fs.readFileSync(dataFile, 'utf8');
   let parsedData = JSON.parse(rawData);
 
@@ -30,6 +37,27 @@ const addPassword = (app, email, password) => {
 }
 
 const getPassword = (app) => {
+  try { JSON.parse(fs.readFileSync(dataFile, 'utf8')) }
+  catch (err) { return console.log('you must decrypt your password file first.') }
+
+  let data = JSON.parse(fs.readFileSync(dataFile, 'utf8'));
+
+  for (key in data) {
+    if (key === app) {
+      const pbcopy = require('child_process').spawn('pbcopy');
+      let password = data[key].password.toString();
+      pbcopy.stdin.write(password);
+      pbcopy.stdin.end();
+      //console.log(`>\n${data[key].password}`);
+      console.log('Password copied to clipboard')
+      return;
+    }
+  }
+
+  return console.log('No info saved for that app.');
+}
+
+const showPassword = (app) => {
   try { JSON.parse(fs.readFileSync(dataFile, 'utf8')) }
   catch (err) { return console.log('you must decrypt your password file first.') }
 
@@ -59,7 +87,6 @@ const getUsername = (app) => {
   }
 
   return console.log('No info saved for that app.');
-
 }
 
 const changePassword = (app, newPassword, newEmail) => {
@@ -114,6 +141,8 @@ const listApps = () => {
   for (key in data) { arr.push(key) }
 
   arr.sort().forEach((key) => console.log(key));
+
+  return;
 }
 
 const encrypt = (password) => {
@@ -132,8 +161,9 @@ const encrypt = (password) => {
 
   let encryptedFile = initVect + cipherText;
 
-  fs.writeFile(dataFile, encryptedFile, () => console.log(`Password file has been encrypted.`))
+  fs.writeFile(dataFile, encryptedFile, () => console.log(`Password file has been encrypted.`));
 
+  return;
 }
 
 const decrypt = (password) => {
@@ -152,13 +182,16 @@ const decrypt = (password) => {
   try { decrypted += decipher.final('utf8'); }
   catch (err) { return console.log('you may have entered the wrong password.') }
 
-  fs.writeFile(dataFile, decrypted, () => console.log(`Password file has been decrypted.`))
+  fs.writeFile(dataFile, decrypted, () => console.log(`Password file has been decrypted.`));
+
+  return;
 }
 
 module.exports = {
   addPassword,
   getPassword,
   getUsername,
+  showPassword,
   changePassword,
   deleteInfo,
   listApps,
