@@ -8,6 +8,7 @@ const {
   getUsername,
   showPassword,
   changePassword,
+  changeUserName,
   deleteInfo,
   listApps,
   keyEncryption,
@@ -49,20 +50,26 @@ program
   .action((appname) => showPassword(appname));
 
 program
-  .command('change <appname> <newpassword> <newemail/username (optional)>')
-  .description('Updates password and account info for given app.')
+  .command('change <appname> <newpassword>')
+  .description('Updates password for given app.')
   .alias('ch')
-  .action((appname, newpassword, newemail) => changePassword(appname, newpassword, newemail));
+  .action((appname, newpassword) => changePassword(appname, newpassword));
+
+program
+  .command('changeName <appname> <newemail/username>')
+  .description('Updates username for given app.')
+  .alias('chu')
+  .action((appname, newemail) => changeUserName(appname, newemail));
 
 program
   .command('encrypt')
-  .description('Encrypts password file. If key uses special characters, wrap it in quotes.')
+  .description('Encrypts password file. Key must be wrapped in single quotes.')
   .alias('en')
   .action(() => keyEncryption());
 
 program
   .command('decrypt')
-  .description('Decrypts password file. If key uses special characters, wrap it in quotes.')
+  .description('Decrypts password file. Key must be wrapped in single quotes.')
   .alias('d')
   .action(() => keyDecryption());
 

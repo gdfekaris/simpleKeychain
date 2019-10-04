@@ -112,11 +112,11 @@ const getUsername = (app) => {
   return console.log('No info saved for that app.');
 }
 
-const changePassword = (app, newPassword, newEmail) => {
+const changePassword = (app, newPassword) => {
   try { JSON.parse(fs.readFileSync(dataFile, 'utf8')) }
   catch (err) { return console.log('you must decrypt your password file first.') }
 
-  if (app === undefined || password === undefined) {
+  if (app === undefined || newPassword === undefined) {
     console.log(`Missing argument. Use \x1b[1msimplekeychain h\x1b[0m for help.`)
     return;
   }
@@ -128,10 +128,34 @@ const changePassword = (app, newPassword, newEmail) => {
   for (key in data) {
     if (key === app) {
       data[key].password = newPassword;
-      data[key].email = newEmail || data[key].email;
+      // data[key].email = newEmail || data[key].email;
 
       fs.writeFile(dataFile, JSON.stringify(data), () => {
         return console.log(`Password for ${app} has been changed.`);
+      });
+    }
+  }
+
+  return;
+}
+
+const changeUserName = (app, newEmail) => {
+  try { JSON.parse(fs.readFileSync(dataFile, 'utf8')) }
+  catch (err) { return console.log('you must decrypt your password file first.') }
+
+  if (app === undefined || newEmail === undefined) {
+    console.log(`Missing argument. Use \x1b[1msimplekeychain h\x1b[0m for help.`)
+    return;
+  }
+
+  let data = JSON.parse(fs.readFileSync(dataFile, 'utf8'));
+
+  for (key in data) {
+    if (key === app) {
+      data[key].email = newEmail;
+
+      fs.writeFile(dataFile, JSON.stringify(data), () => {
+        return console.log(`Username for ${app} has been changed.`);
       });
     }
   }
@@ -220,7 +244,7 @@ const keyEncryption = () => {
   rl._writeToOutput = function _writeToOutput(stringToWrite) {
     if (rl.stdoutMuted) {
       if (rl.line.length === 0) {
-        rl.output.write(rl.query)
+        rl.output.write("\x1B[2K\x1B[200D" + rl.query);
       } else {
         rl.output.write("\x1B[2K\x1B[200D" + rl.query + "[" + ((rl.line.length % 2 == 1) ? "=-" : "-=") + "]");
       }
@@ -273,7 +297,7 @@ const keyDecryption = () => {
   rl._writeToOutput = function _writeToOutput(stringToWrite) {
     if (rl.stdoutMuted) {
       if (rl.line.length === 0) {
-        rl.output.write(rl.query)
+        rl.output.write("\x1B[2K\x1B[200D" + rl.query);
       } else {
         rl.output.write("\x1B[2K\x1B[200D" + rl.query + "[" + ((rl.line.length % 2 == 1) ? "=-" : "-=") + "]");
       }
@@ -315,6 +339,7 @@ module.exports = {
   showPassword,
   clearClipboard,
   changePassword,
+  changeUserName,
   deleteInfo,
   listApps,
   keyEncryption,
