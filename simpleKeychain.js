@@ -10,8 +10,8 @@ const {
   changePassword,
   deleteInfo,
   listApps,
-  encrypt,
-  decrypt
+  keyEncryption,
+  keyDecryption
 } = require('./logic');
 
 program
@@ -55,16 +55,16 @@ program
   .action((appname, newpassword, newemail) => changePassword(appname, newpassword, newemail));
 
 program
-  .command('encrypt <key>')
+  .command('encrypt')
   .description('Encrypts password file. If key uses special characters, wrap it in quotes.')
   .alias('en')
-  .action((key) => encrypt(key));
+  .action(() => keyEncryption());
 
 program
-  .command('decrypt <key>')
+  .command('decrypt')
   .description('Decrypts password file. If key uses special characters, wrap it in quotes.')
   .alias('d')
-  .action((key) => decrypt(key));
+  .action(() => keyDecryption());
 
 program
   .command('list')

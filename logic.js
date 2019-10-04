@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
-//const readline = require('readline');
+const readline = require('readline');
 
 let dataFile = path.join(__dirname, 'data.txt');
 
@@ -178,53 +178,132 @@ const listApps = () => {
   return;
 }
 
-const encrypt = (password) => {
+const keyEncryption = () => {
   try { JSON.parse(fs.readFileSync(dataFile, 'utf8')) }
-  catch (err) { return console.log('your file is already encrypted. you cannot encrypt doubly.') }
+  catch (err) { return console.log('\nyour file is already encrypted. you cannot encrypt doubly.') }
 
-  if (password === undefined) {
-    console.log(`Missing argument. Use \x1b[1msimplekeychain h\x1b[0m for help.`);
+  const encrypt = (password) => {
+    let data = fs.readFileSync(dataFile, 'utf8');
+
+    const initVect = crypto.randomBytes(8).toString('hex');
+
+    const key = crypto.createHash('sha256').update(password).digest();
+
+    const cipher = crypto.createCipheriv('aes256', key, initVect);
+    let cipherText = cipher.update(data, 'utf8', 'hex');
+    cipherText += cipher.final('hex');
+
+    let encryptedFile = initVect + cipherText;
+
+    fs.writeFile(dataFile, encryptedFile, () => console.log(`\nPassword file has been encrypted.`));
+
     return;
   }
 
-  let data = fs.readFileSync(dataFile, 'utf8');
+  var rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+  });
 
-  const initVect = crypto.randomBytes(8).toString('hex');
+  rl.stdoutMuted = true;
 
-  const key = crypto.createHash('sha256').update(password).digest();
+  rl.query = "Enter key: ";
+  rl.question(rl.query, function (password) {
+    //console.log('\nPassword is ' + password);
+    if (password === undefined || password.length === 0) {
+      rl.close(console.log(`\nInvalid key. Use \x1b[1msimplekeychain h\x1b[0m for help.`));
+      return;
+    }
+    rl.close(encrypt(password));
+  });
 
-  const cipher = crypto.createCipheriv('aes256', key, initVect);
-  let cipherText = cipher.update(data, 'utf8', 'hex');
-  cipherText += cipher.final('hex');
-
-  let encryptedFile = initVect + cipherText;
-
-  fs.writeFile(dataFile, encryptedFile, () => console.log(`Password file has been encrypted.`));
+  rl._writeToOutput = function _writeToOutput(stringToWrite) {
+    if (rl.stdoutMuted) {
+      if (rl.line.length === 0) {
+        rl.output.write(rl.query)
+      } else {
+        rl.output.write("\x1B[2K\x1B[200D" + rl.query + "[" + ((rl.line.length % 2 == 1) ? "=-" : "-=") + "]");
+      }
+    } else {
+      rl.output.write(stringToWrite);
+    }
+  };
 
   return;
 }
 
-const decrypt = (password) => {
-  if (password === undefined) {
-    console.log(`Missing argument. Use \x1b[1msimplekeychain h\x1b[0m for help.`);
+const keyDecryption = () => {
+  const decrypt = (password) => {
+    let data = fs.readFileSync(dataFile, 'utf8');
+
+    const key = crypto.createHash('sha256').update(password).digest();
+
+    const initVect = data.slice(0, 16);
+
+    let encryptedData = data.slice(16, data.length);
+
+    const decipher = crypto.createDecipheriv('aes256', key, initVect);
+    let decrypted = decipher.update(encryptedData, 'hex', 'utf8');
+
+    try { decrypted += decipher.final('utf8'); }
+    catch (err) { return console.log('\nyou have entered the wrong key.') }
+
+    fs.writeFile(dataFile, decrypted, () => console.log(`\nPassword file has been decrypted.`));
+
     return;
   }
 
-  let data = fs.readFileSync(dataFile, 'utf8');
+  var rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+  });
 
-  const key = crypto.createHash('sha256').update(password).digest();
+  rl.stdoutMuted = true;
 
-  const initVect = data.slice(0, 16);
+  rl.query = "Enter key: ";
+  rl.question(rl.query, function (password) {
+    //console.log('\nPassword is ' + password);
+    if (password === undefined || password.length === 0) {
+      rl.close(console.log(`\nInvalid key. Use \x1b[1msimplekeychain h\x1b[0m for help.`));
+      return;
+    }
+    rl.close(decrypt(password));
+  });
 
-  let encryptedData = data.slice(16, data.length);
+  rl._writeToOutput = function _writeToOutput(stringToWrite) {
+    if (rl.stdoutMuted) {
+      if (rl.line.length === 0) {
+        rl.output.write(rl.query)
+      } else {
+        rl.output.write("\x1B[2K\x1B[200D" + rl.query + "[" + ((rl.line.length % 2 == 1) ? "=-" : "-=") + "]");
+      }
+    } else {
+      rl.output.write(stringToWrite);
+    }
+  };
 
-  const decipher = crypto.createDecipheriv('aes256', key, initVect);
-  let decrypted = decipher.update(encryptedData, 'hex', 'utf8');
+  // const rl = readline.createInterface({
+  //   input: process.stdin,
+  //   output: process.stdout
+  // });
 
-  try { decrypted += decipher.final('utf8'); }
-  catch (err) { return console.log('you may have entered the wrong password.') }
+  // rl.stdoutMuted = true;
 
-  fs.writeFile(dataFile, decrypted, () => console.log(`Password file has been decrypted.`));
+  // rl.question('Enter key: ', function (password) {
+  //   //console.log('\nPassword is ' + password);
+  //   if (password === undefined || password.length === 0) {
+  //     rl.close(console.log(`\nInvalid input. Use \x1b[1msimplekeychain h\x1b[0m for help.`));
+  //     return;
+  //   }
+  //   rl.close(decrypt(password));
+  // });
+
+  // rl._writeToOutput = function _writeToOutput(stringToWrite) {
+  //   if (rl.stdoutMuted)
+  //     rl.output.write("*");
+  //   else
+  //     rl.output.write(stringToWrite);
+  // };
 
   return;
 }
@@ -238,6 +317,8 @@ module.exports = {
   changePassword,
   deleteInfo,
   listApps,
-  encrypt,
-  decrypt
+  keyEncryption,
+  keyDecryption
 };
+
+

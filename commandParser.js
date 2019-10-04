@@ -102,7 +102,7 @@ Program.prototype.parse = function (argv) {
     }
   }
 
-  const badCommandOutput = `\nThat's not a command.\nTo see the help menu, run this: simplekeychain help`;
+  const badCommandOutput = `\nThat's not a command.\nTo see the help menu, run this: \x1b[1msimplekeychain h\x1b[0m`;
   return console.log(badCommandOutput);
 }
 
