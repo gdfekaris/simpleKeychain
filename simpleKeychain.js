@@ -63,13 +63,13 @@ program
 
 program
   .command('encrypt')
-  .description('Encrypts password file. Key must be wrapped in single quotes.')
+  .description("Encrypts password file. Enter command, then you'll be prompted for an encryption key.")
   .alias('en')
   .action(() => keyEncryption());
 
 program
   .command('decrypt')
-  .description('Decrypts password file. Key must be wrapped in single quotes.')
+  .description("Decrypts password file. Enter command, then you'll be prompted for your key.")
   .alias('d')
   .action(() => keyDecryption());
 
