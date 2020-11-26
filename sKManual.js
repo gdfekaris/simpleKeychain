@@ -17,8 +17,10 @@ const showManual = (commandList, programName, programDescription, logo) => {
       let stringArray = commandList[i][key].command.split(' ');
 
       if (alias) {
-        alias = '|' + alias
-        stringArray[0] = stringArray[0] + alias;
+        alias = ' [' + alias + ']'
+        stringArray[0] = '[' + stringArray[0] + '] or' + alias;
+      } else {
+        stringArray[0] = '[' + stringArray[0] + ']'
       }
 
       output = output + `   ${stringArray.join(' ')}\n   ${commandList[i][key].description}\n\n`
